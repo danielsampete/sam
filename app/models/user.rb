@@ -2,12 +2,16 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  email      :string(255)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  email           :string(255)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  password_digest :string(255)
+#  remember_token  :string(255)
+#  admin           :boolean          default(FALSE)
 #
+
 class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
   has_secure_password
@@ -19,6 +23,12 @@ class User < ActiveRecord::Base
                                    dependent:   :destroy
   has_many :followers, through: :reverse_relationships, source: :follower
   
+  has_many :reverse_favrelationships, foreign_key: "favby_id",
+                                   class_name:  "Favrelationship",
+                                   dependent:   :destroy
+  has_many :favourites, through: :reverse_favrelationships, source: :favmp
+
+
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token
 

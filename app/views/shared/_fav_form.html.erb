@@ -1,0 +1,51 @@
+<% if feed_item.favouritedby?(current_user) %>
+    <%= render 'shared/unfav' , :feed_item => feed_item %>
+<% else %>
+    <%= render 'shared/fav' , :feed_item => feed_item %>
+<% end %>
+
+
+<span class="timestamp">
+<% array=Array.new %>
+
+<% if feed_item.favby_users.count ==0 %>
+  Be the first one to Like this!!!
+
+<% elsif feed_item.favby_users.count ==1 %>
+  <% if feed_item.favouritedby?(current_user) %>
+    <%=  "You "  %>like this.
+  <% else %>
+    <%=  feed_item.favby_users.first.name %> likes this
+  <% end %>
+
+<% elsif feed_item.favby_users.count==2 %>
+  <% feed_item.favby_users.each do |user| %>
+    <% array.push(user.name) %>
+    
+  <% end %>
+  <% if feed_item.favouritedby?(current_user)%>
+        <%=  "You " %>and
+        <% array.delete(current_user.name) %>
+        <%= array.first %> likes this
+  <% else %>
+       <%= array.first %> <%=" and "%> <%=array.last%> likes this
+  <% end %>    
+
+<% elsif feed_item.favby_users.count>2 %>
+  <% feed_item.favby_users.each do |user| %>
+    <% array.push(user.name) %>
+    
+  <% end %>
+  <% if feed_item.favouritedby?(current_user)%>
+        <%=  "You, " %>
+        <% array.delete(current_user.name)%>
+        <%= array.first %><%=" and "%> <%=array.count-1 %> other<% if array.count > 2 %>'s<%end%>
+        likes this
+
+  <% else %>
+        <%= array.first %>,<%=array.second %> <%=" and "%> <%=array.count-2 %>other<% if array.count>3 %><%= "'s "%><% end %>
+        likes this.
+  <% end %>
+<% end %>
+
+</span>

@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140612134331) do
+ActiveRecord::Schema.define(:version => 20140614174657) do
+
+  create_table "favrelationships", :force => true do |t|
+    t.integer  "favmp_id"
+    t.integer  "favby_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "favrelationships", ["favby_id"], :name => "index_favrelationships_on_favby_id"
+  add_index "favrelationships", ["favmp_id", "favby_id"], :name => "index_favrelationships_on_favmp_id_and_favby_id", :unique => true
+  add_index "favrelationships", ["favmp_id"], :name => "index_favrelationships_on_favmp_id"
 
   create_table "microposts", :force => true do |t|
     t.string   "content"

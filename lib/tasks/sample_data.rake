@@ -4,6 +4,7 @@ namespace :db do
     make_users
     make_microposts
     make_relationships
+    make_favrelationships
   end
 end
 
@@ -39,4 +40,15 @@ def make_relationships
   followers      = users[3..40]
   followed_users.each { |followed| user.follow!(followed) }
   followers.each      { |follower| follower.follow!(user) }
+end
+
+def make_favrelationships
+  posts = Micropost.all
+  users = User.all
+  user=users.first
+  post  = posts.first
+  favuser_users = users[2..50]
+  favposts      = posts[3..40]
+  favuser_users.each { |favuser| post.favourite!(favuser) }
+  favposts.each      { |favpost| favpost.favourite!(user) }
 end

@@ -7,14 +7,24 @@ class MicropostsController < ApplicationController
       flash[:success] = "Micropost created!"
       redirect_to root_url
     else
-      @feed_items = []
-      render 'static_pages/home'
+      if @micropost.content.length==0
+        flash[:error] = "Micropost cant be empty"
+      else
+        flash[:error] = "Length of a micropost cant exceed 140 characters "
+      end
+      redirect_to root_url
     end
   end
   
   def destroy
     @micropost.destroy
     redirect_to root_url
+  end
+
+  def favouritedby # added for a page to show fav users of a post in a seperate pg but yet to complet4 it
+  @post = Micropost.find(params[:id])
+  @users = @post.favby_users
+  render 'show_favusers'
   end
 
   private

@@ -1,0 +1,2 @@
+$('#M<%= @post.id %>').html('<%= escape_javascript(render "shared/fav_form", feed_item: @post ) %>')
+$("#nooffavs").html('<%= current_user.favourites.count  %>')

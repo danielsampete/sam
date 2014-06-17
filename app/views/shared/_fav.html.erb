@@ -1,0 +1,4 @@
+<%= form_for(feed_item.favrelationships.build(favby_id: feed_item.user.id), remote: true, favmp_id: feed_item.id) do |f| %>
+        <div><%= f.hidden_field :favmp_id %></div>
+    <%= f.submit "Like", class: "btn btn-small btn-success" %>
+    <% end %>
